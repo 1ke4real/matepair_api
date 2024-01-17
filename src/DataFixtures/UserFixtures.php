@@ -16,6 +16,7 @@ class UserFixtures extends Fixture
         $admin = new User();
         $admin->setEmail('admin@admin.com');
         $admin->setPassword(password_hash('toto', PASSWORD_BCRYPT));
+        $manager->persist($admin);
         for ($i = 0; $i < 10; ++$i) {
             $user = new User();
             $user->setEmail($faker->email);
