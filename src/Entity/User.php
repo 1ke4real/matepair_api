@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,6 +44,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
 
     #[ORM\Column(nullable: true)]
     private ?array $play_schedule = null;
+
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
+    private Collection $send;
+
+    #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: Message::class)]
+    private Collection $receive;
+
+    public function __construct()
+    {
+        $this->send = new ArrayCollection();
+        $this->receive = new ArrayCollection();
+    }
 
     public function __toString(): string
     {
@@ -161,6 +175,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     public function setPlaySchedule(?array $play_schedule): static
     {
         $this->play_schedule = $play_schedule;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getSend(): Collection
+    {
+        return $this->send;
+    }
+
+    public function addSend(Message $send): static
+    {
+        if (!$this->send->contains($send)) {
+            $this->send->add($send);
+            $send->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSend(Message $send): static
+    {
+        if ($this->send->removeElement($send)) {
+            // set the owning side to null (unless already changed)
+            if ($send->getSender() === $this) {
+                $send->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getReceive(): Collection
+    {
+        return $this->receive;
+    }
+
+    public function addReceive(Message $receive): static
+    {
+        if (!$this->receive->contains($receive)) {
+            $this->receive->add($receive);
+            $receive->setReceiver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceive(Message $receive): static
+    {
+        if ($this->receive->removeElement($receive)) {
+            // set the owning side to null (unless already changed)
+            if ($receive->getReceiver() === $this) {
+                $receive->setReceiver(null);
+            }
+        }
 
         return $this;
     }
