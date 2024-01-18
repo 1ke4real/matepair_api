@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,6 +30,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $username = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $details = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $favorite_games = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $play_schedule = null;
 
     public function getId(): ?int
     {
@@ -98,5 +111,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(?string $username): static
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getDetails(): ?string
+    {
+        return $this->details;
+    }
+
+    public function setDetails(?string $details): static
+    {
+        $this->details = $details;
+
+        return $this;
+    }
+
+    public function getFavoriteGames(): ?array
+    {
+        return $this->favorite_games;
+    }
+
+    public function setFavoriteGames(?array $favorite_games): static
+    {
+        $this->favorite_games = $favorite_games;
+
+        return $this;
+    }
+
+    public function getPlaySchedule(): ?array
+    {
+        return $this->play_schedule;
+    }
+
+    public function setPlaySchedule(?array $play_schedule): static
+    {
+        $this->play_schedule = $play_schedule;
+
+        return $this;
     }
 }
