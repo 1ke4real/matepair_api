@@ -22,5 +22,7 @@ class MessageNotificationListener
         $notification->setContent('Vous avez reçu un nouveau message de '.$message->getSender()->getUsername());
         $notification->setTimestamp(new \DateTime());
         $event->getObjectManager()->persist($notification);
+        $event->getObjectManager()->flush();
     }
+
 }
