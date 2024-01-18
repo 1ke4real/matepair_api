@@ -18,6 +18,7 @@ class UserFixtures extends Fixture
         $admin->setUsername('admin');
         $admin->setEmail('admin@admin.com');
         $admin->setPassword(password_hash('toto', PASSWORD_BCRYPT));
+        $admin->setRoles(['ROLE_ADMIN']);
         $manager->persist($admin);
 
         // Users

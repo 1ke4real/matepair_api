@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <div style="max-width: 400px; margin: auto; margin-top: 50px;">
+        <form method="post" style="text-align: center;">
+            {% if error %}
+                <div style="color: red; margin-bottom: 10px;">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            {% if app.user %}
+                <div style="color: green; margin-bottom: 10px;">
+                    Vous êtes connecté en tant que {{ app.user.userIdentifier }}.
+                    <a href="{{ path('app_logout') }}" style="text-decoration: none; color: #007bff; margin-left: 10px;">Déconnexion</a>
+                </div>
+            {% endif %}
+
+            <h1 style="font-size: 1.5rem; margin-bottom: 20px;">Veuillez vous connecter</h1>
+
+            <label for="inputEmail">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" style="width: 100%; padding: 8px;" placeholder="Votre adresse email" autocomplete="email" required autofocus>
+
+            <label for="inputPassword">Mot de passe</label>
+            <input type="password" name="password" id="inputPassword" style="width: 100%; padding: 8px;" placeholder="Votre mot de passe" autocomplete="current-password" required>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            <button style="width: 100%; padding: 10px; margin-top: 10px; background-color: #007bff; color: #fff; border: none; cursor: pointer;" type="submit">Connexion</button>
+        </form>
+    </div>
+{% endblock %}
