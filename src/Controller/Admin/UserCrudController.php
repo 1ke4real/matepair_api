@@ -5,10 +5,13 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CodeEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+
 
 class UserCrudController extends AbstractCrudController
 {
@@ -16,6 +19,8 @@ class UserCrudController extends AbstractCrudController
     {
         return User::class;
     }
+
+
 
 
     public function configureFields(string $pageName): iterable
@@ -26,8 +31,8 @@ class UserCrudController extends AbstractCrudController
         yield TextField::new('password')->hideOnIndex()->hideOnForm()->hideOnDetail();
         yield ArrayField::new('roles')->hideOnForm()->hideOnDetail()->hideOnIndex();
         yield TextEditorField::new('details');
-        yield TextField::new('favorite_games');
-        yield TextField::new('play_schedule');
+        yield CodeEditorField::new('favorite_games')->setLanguage('js')->hideOnForm()->hideOnIndex()->hideOnDetail();// Utilisez le même template que pour le formulaire
+        yield TextField::new('play_schedule')->hideOnForm()->hideOnIndex()->hideOnDetail();
     }
 
 }
