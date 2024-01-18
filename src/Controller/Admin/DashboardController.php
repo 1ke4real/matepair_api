@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Matche;
 use App\Entity\Message;
 use App\Entity\Notification;
 use App\Entity\User;
@@ -49,6 +50,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Users', 'fa-solid fa-user', User::class);
         yield MenuItem::linkToCrud('Messages', 'fa-solid fa-envelope', Message::class);
         yield MenuItem::linkToCrud('Notification', 'fa-solid fa-bell', Notification::class);
+        yield MenuItem::linkToCrud('Match', 'fa-solid fa-heart', Matche::class);
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 }

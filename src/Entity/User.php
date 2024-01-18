@@ -54,11 +54,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Notification::class)]
     private Collection $notifications;
 
+    #[ORM\OneToMany(mappedBy: 'user_first', targetEntity: Matche::class)]
+    private Collection $first;
+
+    #[ORM\OneToMany(mappedBy: 'user_second', targetEntity: Matche::class)]
+    private Collection $second;
+
     public function __construct()
     {
         $this->send = new ArrayCollection();
         $this->receive = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->first = new ArrayCollection();
+        $this->second = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -267,6 +275,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
             // set the owning side to null (unless already changed)
             if ($notification->getUserId() === $this) {
                 $notification->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Matche>
+     */
+    public function getFirst(): Collection
+    {
+        return $this->first;
+    }
+
+    public function addFirst(Matche $first): static
+    {
+        if (!$this->first->contains($first)) {
+            $this->first->add($first);
+            $first->setUserFirst($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFirst(Matche $first): static
+    {
+        if ($this->first->removeElement($first)) {
+            // set the owning side to null (unless already changed)
+            if ($first->getUserFirst() === $this) {
+                $first->setUserFirst(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Matche>
+     */
+    public function getSecond(): Collection
+    {
+        return $this->second;
+    }
+
+    public function addSecond(Matche $second): static
+    {
+        if (!$this->second->contains($second)) {
+            $this->second->add($second);
+            $second->setUserSecond($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSecond(Matche $second): static
+    {
+        if ($this->second->removeElement($second)) {
+            // set the owning side to null (unless already changed)
+            if ($second->getUserSecond() === $this) {
+                $second->setUserSecond(null);
             }
         }
 
