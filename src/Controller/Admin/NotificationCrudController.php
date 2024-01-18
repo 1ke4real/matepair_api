@@ -24,7 +24,7 @@ class NotificationCrudController extends AbstractCrudController
        yield IdField::new('id')->hideOnForm();
        yield TextField::new('title');
        yield TextareaField::new('content');
-       yield DateTimeField::new('timestamp');
+       yield DateTimeField::new('timestamp')->hideOnForm();
        yield AssociationField::new('user_id');
     }
 

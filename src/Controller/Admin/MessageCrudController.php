@@ -24,7 +24,7 @@ class MessageCrudController extends AbstractCrudController
     {
        yield IdField::new('id')->hideOnForm();
        yield TextareaField::new('content');
-       yield DateTimeField::new('timestamp');
+       yield DateTimeField::new('timestamp')->hideOnForm();
        yield AssociationField::new('sender');
        yield AssociationField::new('receiver');
     }

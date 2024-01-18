@@ -65,7 +65,7 @@ class Notification
     public function setTimestamp(\DateTimeInterface $timestamp): static
     {
         $this->timestamp = $timestamp;
-
+        $timestamp = new \DateTimeImmutable();
         return $this;
     }
 

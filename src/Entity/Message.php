@@ -6,6 +6,8 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Get;
+
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 #[ApiResource]
@@ -55,7 +57,7 @@ class Message
     public function setTimestamp(\DateTimeInterface $timestamp): static
     {
         $this->timestamp = $timestamp;
-
+        $timestamp = new \DateTimeImmutable();
         return $this;
     }
 
