@@ -51,10 +51,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: Message::class)]
     private Collection $receive;
 
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Notification::class)]
+    private Collection $notifications;
+
     public function __construct()
     {
         $this->send = new ArrayCollection();
         $this->receive = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -233,6 +237,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
             // set the owning side to null (unless already changed)
             if ($receive->getReceiver() === $this) {
                 $receive->setReceiver(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notification>
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): static
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications->add($notification);
+            $notification->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): static
+    {
+        if ($this->notifications->removeElement($notification)) {
+            // set the owning side to null (unless already changed)
+            if ($notification->getUserId() === $this) {
+                $notification->setUserId(null);
             }
         }
 

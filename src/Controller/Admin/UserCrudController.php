@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CodeEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -32,7 +33,7 @@ class UserCrudController extends AbstractCrudController
         yield EmailField::new('email');
         yield TextField::new('password')->hideOnIndex()->hideOnForm()->hideOnDetail();
         yield ArrayField::new('roles')->hideOnForm()->hideOnDetail()->hideOnIndex();
-        yield TextEditorField::new('details');
+        yield TextareaField::new('details');
         yield CodeEditorField::new('favorite_games')->setLanguage('js')->hideOnForm()->hideOnIndex()->hideOnDetail();
         yield TextField::new('play_schedule')->hideOnForm()->hideOnIndex()->hideOnDetail();
         yield AssociationField::new('send');
