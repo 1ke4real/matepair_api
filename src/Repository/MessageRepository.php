@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,6 +22,28 @@ class MessageRepository extends ServiceEntityRepository
         parent::__construct($registry, Message::class);
     }
 
+    public function findMessageSend(int $id): ArrayCollection
+    {
+        $qb = $this->createQueryBuilder('m')
+           ->select('m')
+            ->where('m.sender = :id')
+            ->setParameter('id', $id)
+            ->orderBy('m.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+        return new ArrayCollection($qb);
+    }
+    public function findMessageReceive(int $id): ArrayCollection
+    {
+        $qb = $this->createQueryBuilder('m')
+           ->select('m')
+            ->where('m.receiver = :id')
+            ->setParameter('id', $id)
+            ->orderBy('m.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+        return new ArrayCollection($qb);
+    }
 //    /**
 //     * @return Message[] Returns an array of Message objects
 //     */
