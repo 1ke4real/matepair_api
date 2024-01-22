@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use App\Controller\SendController;
 use App\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +11,22 @@ use ApiPlatform\Metadata\Get;
 
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
+#
 #[ApiResource]
+#[ApiResource(operations: [
+    New Get(
+        name: 'Send Message To User',
+        routeName: 'send_message',
+    ),
+    New Get(
+        name: 'Send Message',
+        routeName: 'message_send_by_user',
+    ),
+    New Get(
+        name: 'Receive Message',
+        routeName: 'message_receive_by_user',
+    ),
+])]
 class Message
 {
     #[ORM\Id]

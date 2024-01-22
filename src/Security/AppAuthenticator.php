@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,17 +20,17 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 class AppAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
-
+    private $jwtTokenManager;
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private JWTTokenManagerInterface $JWTTokenManager)
     {
     }
 
     public function authenticate(Request $request): Passport
     {
         $email = $request->request->get('email', '');
-
+        $token = $request->request->get('Authorization');
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
         return new Passport(

@@ -2,23 +2,27 @@
 
 namespace App\Controller;
 
-use App\Service\UserToken;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;// Utilisation de JWTTokenAuthenticator
 
 class SendController extends AbstractController
 {
-    #[Route(path: 'api/send/{id}', name: 'send_message')]
-    public function sendTo(Request $request, int $id , UserToken $userToken)
-    {
-        dd($userToken->getUserByToken($request));
-        dd($request);
 
-        $message = json_decode($request->getContent(), true);
-        $token = $tokenStorage->getToken();
-        $user = $token->getUser();
-        dd($user);
+
+    public function __construct(TokenStorageInterface $tokenStorageInterface, JWTTokenManagerInterface $jwtManager)
+    {
+        $this->jwtManager = $jwtManager;
+        $this->tokenStorageInterface = $tokenStorageInterface;
+    }
+    #[Route(path: 'api/send/{id}', name: 'send_message')]
+    public function sendTo(Request $request, int $id)
+    {
+        $decodedJwtToken = $this->jwtManager->decode($this->tokenStorageInterface->getToken());
+
+        dd($decodedJwtToken);
     }
 }
