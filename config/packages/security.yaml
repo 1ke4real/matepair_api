@@ -11,10 +11,15 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
         main:
             lazy: true
             provider: users
-            jwt: ~
+            entry_point: App\Security\AppAuthenticator
+            custom_authenticator: App\Security\AppAuthenticator
             json_login:
                 check_path: auth
                 username_path: email
@@ -29,11 +34,7 @@ security:
                 path: /
                 always_remember_me: true
 
-        api:
-            pattern: ^/api
-            stateless: true
-        
-        
+       
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -45,7 +46,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/api/docs, roles: PUBLIC_ACCESS }
         
         # - { path: ^/profile, roles: ROLE_USER }
 
