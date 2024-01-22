@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\TimeDay;
+use App\Entity\WeekDay;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
@@ -12,7 +14,8 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
-
+        $getWeekDays = $manager->getRepository(WeekDay::class)->findAll();
+        $getTimeDays = $manager->getRepository(TimeDay::class)->findAll();
         // Admin
         $admin = new User();
         $admin->setUsername('admin');
@@ -54,6 +57,15 @@ class UserFixtures extends Fixture
 
                 $favoriteGamesData = json_decode($favoriteGamesJson, true);
                 $user->setFavoriteGames($favoriteGamesData);
+                do {
+                    $randomWeekDay = $getWeekDays[array_rand($getWeekDays)];
+                } while ($randomWeekDay->getId() === 0);
+                $user->addWeekDay($randomWeekDay);
+
+                do {
+                    $randomTimeDay = $getTimeDays[array_rand($getTimeDays)];
+                } while ($randomTimeDay->getId() === 0);
+                $user->addTimeDay($randomTimeDay);
             }
             $manager->persist($user);
         }

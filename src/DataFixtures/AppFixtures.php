@@ -17,9 +17,11 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
+            TimeDayFixtures::class,
+            WeekDayFixtures::class,
             UserFixtures::class,
             MessageFixtures::class,
-            WeekDayFixtures::class,
+
         ];
     }
 }
