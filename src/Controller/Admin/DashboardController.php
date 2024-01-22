@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Matche;
 use App\Entity\Message;
 use App\Entity\Notification;
+use App\Entity\TimeDay;
 use App\Entity\User;
 use App\Entity\WeekDay;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -53,6 +54,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Notification', 'fa-solid fa-bell', Notification::class);
         yield MenuItem::linkToCrud('Match', 'fa-solid fa-heart', Matche::class);
         yield MenuItem::linkToCrud('WeekDay', 'fa-solid fa-calendar', WeekDay::class);
+        yield MenuItem::linkToCrud('TimeDay', 'fa-solid fa-clock', TimeDay::class);
         yield MenuItem::linkToLogout('Logout', 'fa-solid fa-sign-out-alt');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }

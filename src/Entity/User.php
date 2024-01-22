@@ -63,6 +63,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     #[ORM\ManyToMany(targetEntity: WeekDay::class, inversedBy: 'users')]
     private Collection $weekDays;
 
+    #[ORM\ManyToMany(targetEntity: TimeDay::class, inversedBy: 'users')]
+    private Collection $timeDays;
+
     public function __construct()
     {
         $this->send = new ArrayCollection();
@@ -71,6 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         $this->first = new ArrayCollection();
         $this->second = new ArrayCollection();
         $this->weekDays = new ArrayCollection();
+        $this->timeDays = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -365,6 +369,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     public function removeWeekDay(WeekDay $weekDay): static
     {
         $this->weekDays->removeElement($weekDay);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TimeDay>
+     */
+    public function getTimeDays(): Collection
+    {
+        return $this->timeDays;
+    }
+
+    public function addTimeDay(TimeDay $timeDay): static
+    {
+        if (!$this->timeDays->contains($timeDay)) {
+            $this->timeDays->add($timeDay);
+        }
+
+        return $this;
+    }
+
+    public function removeTimeDay(TimeDay $timeDay): static
+    {
+        $this->timeDays->removeElement($timeDay);
 
         return $this;
     }

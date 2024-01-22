@@ -38,6 +38,7 @@ class UserCrudController extends AbstractCrudController
         yield TextField::new('play_schedule')->hideOnForm()->hideOnIndex()->hideOnDetail();
         yield AssociationField::new('send');
         yield AssociationField::new('receive');
+        yield AssociationField::new('weekDays');
+        yield AssociationField::new('timeDays');
     }
-
 }
