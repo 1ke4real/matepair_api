@@ -1,5 +1,7 @@
 # Symfony Docker
 
+Serveur prod cmd : sudo SERVER_NAME=mikeleman.fr     APP_SECRET=08656e5671e450f1154ead44cc4c0ca5     CADDY_MERCURE_JWT_SECRET=ChangeThisMercureHubJWTSecretKey     docker compose up -d --wait
+
 A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
 with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
 
