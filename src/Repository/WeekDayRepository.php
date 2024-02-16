@@ -20,7 +20,6 @@ class WeekDayRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, WeekDay::class);
     }
-
 //    /**
 //     * @return WeekDay[] Returns an array of WeekDay objects
 //     */

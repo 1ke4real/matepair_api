@@ -11,11 +11,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class MeController extends AbstractController
 {
     #[Route('api/me', name: 'app_me')]
-    public function index(Request $request, JWTEncoderInterface $encoder, UserRepository $userRepository, TokenDecode $tokenDecode): Response
+    public function index(Request $request, TokenDecode $tokenDecode): Response
     {
         $jwt = $request->headers->get('Authorization');
         $user = $tokenDecode->decode($jwt);
