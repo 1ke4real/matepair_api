@@ -32,9 +32,9 @@ class TokenDecode
                     'username' => $u->getUsername(),
                     'roles' => $u->getRoles(),
                     'details' => $u->getDetails(),
-                    'favorite_games' => $u->getFavoriteGames(),
-                    'week_days' =>$u->getWeekDays(),
-                    'days_time' => $u->getTimeDays(),
+                    'favoriteGames' => $u->getFavoriteGames(),
+                    'weekDays' =>$u->getWeekDays(),
+                    'timeDays' => $u->getTimeDays(),
                 ];
             }
         } else{
