@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WeekDayRepository::class)]
 #[ApiResource]
-class WeekDay
+class WeekDay implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -27,7 +27,10 @@ class WeekDay
     {
         $this->users = new ArrayCollection();
     }
-
+    public function __toString(): string
+    {
+        return $this->name;
+    }
     public function getId(): ?int
     {
         return $this->id;

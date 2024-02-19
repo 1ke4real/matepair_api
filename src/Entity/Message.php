@@ -27,7 +27,7 @@ use ApiPlatform\Metadata\Get;
         routeName: 'message_receive_by_user',
     ),
 ])]
-class Message
+class Message implements \Stringable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -48,6 +48,10 @@ class Message
     #[ORM\JoinColumn(nullable: false)]
     private ?User $receiver = null;
 
+    public function __toString(): string
+    {
+        return $this->content;
+    }
     public function getId(): ?int
     {
         return $this->id;
