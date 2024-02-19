@@ -6,3 +6,6 @@ controllers:
 auth:
     path: /auth
     methods: ['POST']
+jwt_refresh:
+    path: /auth/refresh
+   

@@ -15,6 +15,7 @@ security:
             pattern: ^/api
             stateless: true
             jwt: ~
+            
         main:
             lazy: true
             provider: users
@@ -26,9 +27,11 @@ security:
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            jwt: ~
+            refresh_jwt:
+                check_path: jwt_refresh
             logout:
                 path: app_logout
-            
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
