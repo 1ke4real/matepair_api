@@ -36,24 +36,55 @@ class MeController extends AbstractController
         $user = $userRepository->findOneBy(['email' => $data['email']]);
         $weekDays = $data['weekDays'];
         $timeDays = $data['timeDays'];
-       if ($user instanceof User){
-           $user->setEmail($data['email']);
-           $user->setUsername($data['username']);
-           $user->setFavoriteGames($data['favoriteGames']);
-           foreach ($weekDays as $day) {
-               $name = $day['name'];
-               $weekDays = $weekDayRepository->findOneBy(['name' => $name]);
-               $user->addWeekDay($weekDays);
-           }
-           foreach ($timeDays as $time) {
-               $time_day = $time['name'];
-               $timeDays = $timeDayRepository->findOneBy(['name' => $time_day]);
-               $user->addTimeDay($timeDays);
-           }
-           $entityManager->persist($user);
-           $entityManager->flush();
-           return $this->json($user);
-       }
+
+        if ($user instanceof User){
+            $user->setEmail($data['email']);
+            $user->setUsername($data['username']);
+            $user->setFavoriteGames($data['favoriteGames']);
+
+            // Supprimer les jours de la semaine qui n'apparaissent pas
+            $existingWeekDays = $user->getWeekDays();
+            foreach ($existingWeekDays as $existingWeekDay) {
+                if (!in_array($existingWeekDay->getName(), array_column($weekDays, 'name'))) {
+                    $user->removeWeekDay($existingWeekDay);
+                }
+            }
+
+            // Supprimer les moments de la journée qui n'apparaissent pas
+            $existingTimeDays = $user->getTimeDays();
+            foreach ($existingTimeDays as $existingTimeDay) {
+                if (!in_array($existingTimeDay->getName(), array_column($timeDays, 'name'))) {
+                    $user->removeTimeDay($existingTimeDay);
+                }
+            }
+
+            // Ajouter les jours de la semaine qui n'existent pas encore
+            foreach ($weekDays as $day) {
+                $name = $day['name'];
+                if (!$user->hasWeekDayWithName($name)) {
+                    $weekDay = $weekDayRepository->findOneBy(['name' => $name]);
+                    if ($weekDay) {
+                        $user->addWeekDay($weekDay);
+                    }
+                }
+            }
+
+            // Ajouter les moments de la journée qui n'existent pas encore
+            foreach ($timeDays as $time) {
+                $time_day = $time['name'];
+                if (!$user->hasTimeDayWithName($time_day)) {
+                    $timeDay = $timeDayRepository->findOneBy(['name' => $time_day]);
+                    if ($timeDay) {
+                        $user->addTimeDay($timeDay);
+                    }
+                }
+            }
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->json($user);
+        }
         return $this->json(['error' => 'User not found'], Response::HTTP_NOT_FOUND);
     }
+
 }
