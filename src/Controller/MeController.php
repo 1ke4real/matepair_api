@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class MeController extends AbstractController
 {
+
     #[Route('api/me', name: 'app_me')]
     public function index(Request $request, TokenDecode $tokenDecode): Response
     {
